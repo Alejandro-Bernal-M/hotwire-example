@@ -1,0 +1,24 @@
+<div class="mx-auto md:w-2/3 w-full flex">
+  <%= turbo_stream_from @channel %>
+  <div class="mx-auto">
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+    <% end %>
+
+    <%= turbo_frame_tag "channel" do%>
+      <%= render @channel %>
+
+      <%= link_to "Edit", edit_channel_path(@channel), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      <%= link_to "Back", channels_path, "data-turbo-frame": "_top", class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    <%end%>
+    <div id= "messages">
+      <%= render @channel.messages %>
+    </div>
+
+    <%= turbo_frame_tag "new_message", src: new_channel_message_path(@channel), target: "_top" %>
+
+    <div class="inline-block ml-2">
+      <%= button_to "Destroy this channel", @channel, method: :delete, class: "rounded-lg py-3 px-5 bg-red-600 text-white inline-block font-medium cursor-pointer" %>
+    </div>
+  </div>
+</div>
